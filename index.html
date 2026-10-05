@@ -383,8 +383,8 @@ footer{border-top:1px solid var(--line-soft);padding:54px 0 34px;background:#030
   var burger=document.getElementById('burger'),mmenu=document.getElementById('mmenu');
   burger.addEventListener('click',function(){mmenu.classList.toggle('open')});
   mmenu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){mmenu.classList.remove('open')})});
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
-  document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});}else{document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in')});}})();
+  
   
 </script>
 </body>
