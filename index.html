@@ -73,7 +73,19 @@ header.scrolled{box-shadow:0 8px 40px rgba(0,10,40,.5)}
 .band p{font-family:'Space Grotesk';font-size:clamp(17px,2.6vw,22px);max-width:820px}
 .band p strong{color:var(--cyan);font-weight:600}
 /* ---------- veyra ---------- */
-.veyra-logo{width:min(520px,86vw);margin:0 auto 30px;filter:drop-shadow(0 0 30px rgba(62,226,255,.28));border-radius:12px} .hero-video{width:min(880px,94vw);margin:0 auto 34px;position:relative;left:-14px;border-radius:16px;overflow:hidden;border:1px solid rgba(62,226,255,.25);box-shadow:0 0 60px rgba(11,72,255,.35),0 24px 60px rgba(0,0,0,.5)} .hero-video video{display:block;width:100%;height:auto}
+.veyra-logo{width:min(520px,86vw);margin:0 auto 30px;filter:drop-shadow(0 0 30px rgba(62,226,255,.28));border-radius:12px}
+.veyra-orb{position:relative;width:min(400px,80vw);margin:0 auto 8px}
+.veyra-v{display:block;width:100%;border-radius:22px;position:relative;z-index:2;animation:v-breathe 3.4s ease-in-out infinite}
+.veyra-ring{position:absolute;inset:-8px;border-radius:30px;border:1px solid rgba(62,226,255,.55);z-index:1;pointer-events:none;animation:ring-out 3.4s ease-out infinite}
+.veyra-ring.r2{animation-delay:1.13s}
+.veyra-ring.r3{animation-delay:2.26s}
+@keyframes ring-out{0%{transform:scale(.93);opacity:.9}100%{transform:scale(1.14);opacity:0}}
+@keyframes v-breathe{0%,100%{transform:scale(1);filter:drop-shadow(0 0 22px rgba(47,123,255,.35))}50%{transform:scale(1.03);filter:drop-shadow(0 0 48px rgba(62,226,255,.6))}}
+.veyra-says{margin:20px auto 34px;text-align:center;min-height:46px}
+.veyra-says span{display:inline-block;padding:10px 24px;border-radius:999px;border:1px solid rgba(62,226,255,.32);background:rgba(11,72,255,.12);color:#d7e9ff;font-size:15px;letter-spacing:.05em;transition:opacity .45s ease}
+.veyra-says span.fade{opacity:0}
+.hero-video{width:min(880px,94vw);margin:0 auto 34px;position:relative;left:-14px;border-radius:16px;overflow:hidden;border:1px solid rgba(62,226,255,.25);box-shadow:0 0 60px rgba(11,72,255,.35),0 24px 60px rgba(0,0,0,.5)}
+.hero-video video{display:block;width:100%;height:auto}
 .center{text-align:center}
 .center .sec-head{margin-left:auto;margin-right:auto}
 .tagline{font-family:'Space Grotesk';letter-spacing:.28em;font-size:clamp(13px,2.4vw,17px);color:var(--cyan);margin:14px 0 26px}
@@ -165,7 +177,7 @@ footer{border-top:1px solid var(--line-soft);padding:54px 0 34px;background:#030
   .foot-grid{grid-template-columns:1.2fr 1fr}
   .foot-legal{flex-direction:row;justify-content:space-between;align-items:center}
 }
-@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.rv{opacity:1;transform:none}.veyra-v,.veyra-ring{animation:none}}
 </style>
 </head>
 <body>
@@ -200,7 +212,11 @@ footer{border-top:1px solid var(--line-soft);padding:54px 0 34px;background:#030
 <section class="hero" id="home">
   <div class="hero-bg"><div class="orb orb-1"></div><div class="orb orb-2"></div><div class="grid-lines"></div></div>
   <div class="wrap hero-inner">
-        <div class="hero-video rv">       <video autoplay muted loop playsinline preload="metadata" poster="assets/veyra-ai-logo.jpg">         <source src="assets/veyra-intro.mp4" type="video/mp4">       </video>     </div>
+    <div class="hero-video rv">
+      <video autoplay muted loop playsinline preload="metadata" poster="assets/veyra-ai-logo.jpg">
+        <source src="assets/veyra-intro.mp4" type="video/mp4">
+      </video>
+    </div>
     <p class="eyebrow rv">KEYRO Technologies</p>
     <h1 class="rv">AI Infrastructure for the <span class="grad">Modern Business.</span></h1>
     <p class="sub rv">KEYRO Technologies develops intelligent systems that automate communication, capture opportunities, and connect artificial intelligence with real-world operations.</p>
@@ -220,7 +236,13 @@ footer{border-top:1px solid var(--line-soft);padding:54px 0 34px;background:#030
 <section class="sec" id="veyra">
   <div class="wrap">
     <div class="center sec-head rv">
-      <img class="veyra-logo" src="assets/veyra-ai-logo.jpg" alt="VEYRA AI logo">
+      <div class="veyra-orb rv">
+        <div class="veyra-ring"></div>
+        <div class="veyra-ring r2"></div>
+        <div class="veyra-ring r3"></div>
+        <img class="veyra-v" src="assets/veyra-v-mark.jpg" alt="VEYRA AI">
+      </div>
+      <p class="veyra-says rv"><span id="veyra-phrase">How can I help?</span></p>
       <p class="eyebrow">Flagship Product</p>
       <h2>VEYRA AI&trade;</h2>
       <p class="tagline">EVERY CALL. EVERY LEAD. HANDLED.</p>
@@ -383,9 +405,26 @@ footer{border-top:1px solid var(--line-soft);padding:54px 0 34px;background:#030
   var burger=document.getElementById('burger'),mmenu=document.getElementById('mmenu');
   burger.addEventListener('click',function(){mmenu.classList.toggle('open')});
   mmenu.querySelectorAll('a').forEach(function(a){a.addEventListener('click',function(){mmenu.classList.remove('open')})});
-  if('IntersectionObserver' in window){var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});}else{document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in')});}})();
-  
-  
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}})},{threshold:.12});
+    document.querySelectorAll('.rv').forEach(function(el){io.observe(el)});
+  }else{
+    document.querySelectorAll('.rv').forEach(function(el){el.classList.add('in')});
+  }
+  var vp=document.getElementById('veyra-phrase');
+  if(vp){
+    var phrases=["How can I help?","Every call answered.","Every lead handled.","Never miss another job."];
+    var pi=0;
+    setInterval(function(){
+      vp.classList.add('fade');
+      setTimeout(function(){
+        pi=(pi+1)%phrases.length;
+        vp.textContent=phrases[pi];
+        vp.classList.remove('fade');
+      },450);
+    },4000);
+  }
+})();
 </script>
 </body>
 </html>
